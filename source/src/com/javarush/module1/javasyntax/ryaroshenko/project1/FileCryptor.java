@@ -13,7 +13,8 @@ public class FileCryptor {
         CaesarCipher cipher = new CaesarCipher();
         System.out.println(cipher);
         System.out.println(cipher.toString().length());
-        System.out.println(cipher.encryptSymbol('c', 65));
+        System.out.println(cipher.encryptSymbol('.', 52));
+        System.out.println(cipher.decryptSymbol('Q', 52));
 
         /*
         FileService file = new FileService();

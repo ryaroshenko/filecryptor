@@ -52,16 +52,26 @@ public class CaesarCipher {
         return result.toString();
     }
 
-    public List<Character> encrypt(List<Character> source, int key) {
+    private List<Character> crypt(List<Character> source, int key, CryptType cryptType) {
         if ((source == null) || (key <= 0))
             return null;
 
         List<Character> result = new ArrayList<>();
 
-        for (Character value : source)
-            result.add(encryptSymbol(value.charValue(), key));
+        for (Character value : source) {
+            switch (cryptType) {
+                case ENCRYPT:
+                    result.add(encryptSymbol(value.charValue(), key));
+                case DECRYPT:
+                    result.add(decryptSymbol(value.charValue(), key));
+            }
+        }
 
         return result;
+    }
+
+    public List<Character> encrypt(List<Character> source, int key) {
+        return crypt(source, key, CryptType.ENCRYPT);
     }
 
     public char encryptSymbol(char symbol, int key) {
@@ -69,9 +79,26 @@ public class CaesarCipher {
 
         if (index == -1)
             return symbol;
+        else
+            return alphabet.get((index + key) % alphabet.size());
+    }
 
-        char result = alphabet.get((index + key) % alphabet.size());
+    public List<Character> decrypt(List<Character> source, int key) {
+        return crypt(source, key, CryptType.DECRYPT);
+    }
 
-        return result;
+    public char decryptSymbol(char symbol, int key) {
+        int index = alphabet.indexOf(symbol);
+
+        if (index == -1)
+            return symbol;
+        else {
+            int pos = index - key % alphabet.size();
+
+            if (pos < 0)
+                pos = alphabet.size() + pos;
+
+            return alphabet.get(pos);
+        }
     }
 }
