@@ -1,22 +1,20 @@
 package com.javarush.module1.javasyntax.ryaroshenko.project1;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Клас шифрування/дешифрування потока символів алгоритмом Цезаря
  */
 public class CaesarCipher {
-    // Додаткові символи до алфавіту шифрування
-    private char[] symbols = new char[]{'.', ',', '«', '»', '"', '\'', ':', '!', '?', ' '};
-    // Кількість літер англійського алфавіту в нижньому регістрі
-    private int count_of_lower_symbols = ('z' - 'a') + 1;
-    // Кількість літер англійського алфавіту в верхньому регістрі
-    private int count_of_upper_symbols = ('Z' - 'A') + 1;
     // Алфавіт шифрування
-    private char[] alphabet = new char[count_of_lower_symbols + count_of_upper_symbols + symbols.length];
+    private List<Character> alphabet;
 
     /**
      * Constructor
      */
     CaesarCipher() {
+        alphabet = new ArrayList<>();
         fillAlphabet();
     }
 
@@ -24,22 +22,22 @@ public class CaesarCipher {
      * Ініціалізація алфавіту
      */
     private void fillAlphabet() {
-        int i = 0;
+        if (alphabet == null)
+            return;
 
-        for (char symbol = 'a'; symbol <= 'z'; symbol++) {
-            alphabet[i] = symbol;
-            i++;
-        }
+        // Додаткові символи до алфавіту шифрування
+        char[] symbols = new char[]{'.', ',', '«', '»', '"', '\'', ':', '!', '?', ' '};
 
-        for (char symbol = 'A'; symbol <= 'Z'; symbol++) {
-            alphabet[i] = symbol;
-            i++;
-        }
+        alphabet.clear();
 
-        for (int index = 0; index < symbols.length; index++) {
-            alphabet[i] = symbols[index];
-            i++;
-        }
+        for (char symbol = 'a'; symbol <= 'z'; symbol++)
+            alphabet.add(symbol);
+
+        for (char symbol = 'A'; symbol <= 'Z'; symbol++)
+            alphabet.add(symbol);
+
+        for (int index = 0; index < symbols.length; index++)
+            alphabet.add(symbols[index]);
     }
 
     /**
@@ -49,7 +47,31 @@ public class CaesarCipher {
      */
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append(alphabet);
+        for (Character value : alphabet)
+          result.append(value.charValue());
         return result.toString();
+    }
+
+    public List<Character> encrypt(List<Character> source, int key) {
+        if ((source == null) || (key <= 0))
+            return null;
+
+        List<Character> result = new ArrayList<>();
+
+        for (Character value : source)
+            result.add(encryptSymbol(value.charValue(), key));
+
+        return result;
+    }
+
+    public char encryptSymbol(char symbol, int key) {
+        int index = alphabet.indexOf(symbol);
+
+        if (index == -1)
+            return symbol;
+
+        char result = alphabet.get((index + key) % alphabet.size());
+
+        return result;
     }
 }
