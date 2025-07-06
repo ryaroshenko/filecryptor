@@ -37,7 +37,8 @@ public class FileService {
      * @param list     - колекція символів для файлу
      */
     public static void writeFile(String filePath, List<Character> list) throws IOException {
-        if (list == null) return;
+        if (list == null)
+            return;
         Files.deleteIfExists(Path.of(filePath));
         try {
             BufferedWriter buffer = new BufferedWriter(new FileWriter(filePath));
@@ -57,8 +58,10 @@ public class FileService {
     public static String getFileExt(String filePath) {
         String fileName = Path.of(filePath).getFileName().toString();
         int dotIndex = fileName.lastIndexOf('.');
-        if (dotIndex == -1 || dotIndex == fileName.length() - 1) return "";
-        else return fileName.substring(dotIndex);
+        if (dotIndex == -1 || dotIndex == fileName.length() - 1)
+            return "";
+        else
+            return fileName.substring(dotIndex);
     }
 
     /**

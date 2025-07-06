@@ -1,7 +1,9 @@
 package com.javarush.module1.javasyntax.ryaroshenko.project1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Клас шифрування/дешифрування потока символів алгоритмом Цезаря
@@ -9,6 +11,8 @@ import java.util.List;
 public class CaesarCipher {
     // Алфавіт шифрування
     private List<Character> alphabet;
+    // Рядки для перевірки алгоритму brute-force
+    private final String[] CHECK_LIST = new String[]{", ", " and ", " the ", " - ", " they ", " or ", ": "};
 
     /**
      * Constructor
@@ -22,7 +26,8 @@ public class CaesarCipher {
      * Ініціалізація алфавіту
      */
     private void fillAlphabet() {
-        if (alphabet == null) return;
+        if (alphabet == null)
+            return;
         // Додаткові символи до алфавіту шифрування
         char[] symbols = new char[]{'.', ',', '«', '»', '"', '\'', ':', '!', '?', ' '};
         alphabet.clear();
@@ -55,7 +60,8 @@ public class CaesarCipher {
      * @return вихідний список символів
      */
     public List<Character> crypt(List<Character> source, int key, CryptType cryptType) {
-        if ((source == null) || (key <= 0)) return null;
+        if ((source == null) || (key <= 0))
+            return null;
         List<Character> result = new ArrayList<>();
         for (Character value : source) {
             switch (cryptType) {
@@ -90,8 +96,10 @@ public class CaesarCipher {
      */
     public char encryptSymbol(char symbol, int key) {
         int index = alphabet.indexOf(symbol);
-        if (index == -1) return symbol;
-        else return alphabet.get((index + key) % alphabet.size());
+        if (index == -1)
+            return symbol;
+        else
+            return alphabet.get((index + key) % alphabet.size());
     }
 
     /**
@@ -114,11 +122,67 @@ public class CaesarCipher {
      */
     public char decryptSymbol(char symbol, int key) {
         int index = alphabet.indexOf(symbol);
-        if (index == -1) return symbol;
+        if (index == -1)
+            return symbol;
         else {
             int pos = index - key % alphabet.size();
-            if (pos < 0) pos += alphabet.size();
+            if (pos < 0)
+                pos += alphabet.size();
             return alphabet.get(pos);
         }
+    }
+
+    public int bruteForce(List<Character> source) {
+        int key;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (key = 1; key < alphabet.size(); key++) {
+            List<Character> list = decrypt(source, key);
+            map.put(key, checkSum(list));
+        }
+        int max = Integer.MIN_VALUE;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > max) {
+                max = entry.getValue();
+                key = entry.getKey();
+            }
+        }
+        if (max == 0)
+            key = 0;
+        return key;
+    }
+
+    private int checkWord(List<Character> source, int indexFrom, String word) {
+        int indexTo = indexFrom;
+        for (int i = 0; i < word.length(); i++) {
+            if ((indexTo < source.size()) && (word.charAt(i) == source.get(indexTo)))
+                indexTo++;
+            else {
+                indexTo = -1;
+                break;
+            }
+        }
+        return indexTo;
+    }
+
+    private int countWord(List<Character> source, String word) {
+        int count = 0;
+        int index = 0;
+        while (index < source.size()) {
+            int indexTo = checkWord(source, index, word);
+            if (indexTo == -1)
+                index++;
+            else {
+                count++;
+                index = indexTo;
+            }
+        }
+        return count;
+    }
+
+    private int checkSum(List<Character> source) {
+        int sum = 0;
+        for (int i = 0; i < CHECK_LIST.length; i++)
+            sum += countWord(source, CHECK_LIST[i]);
+        return sum;
     }
 }
