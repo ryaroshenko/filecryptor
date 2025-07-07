@@ -132,6 +132,12 @@ public class CaesarCipher {
         }
     }
 
+    /**
+     * bruteForce - основна функція підбору ключа методом brute-force
+     *
+     * @param source - вхідний зашифрований список символів
+     * @return знайдений ключ
+     */
     public int bruteForce(List<Character> source) {
         int key;
         Map<Integer, Integer> map = new HashMap<>();
@@ -151,6 +157,14 @@ public class CaesarCipher {
         return key;
     }
 
+    /**
+     * checkWord - функція визначення наявності потрібного слова починаючи з заданої позиції
+     *
+     * @param source    - вхідний список символів
+     * @param indexFrom - індекс початку визначення
+     * @param word      - слово, яке очікуємо бачити
+     * @return індекс, з якого треба продовжити пошук або -1 - якщо слова не буде
+     */
     private int checkWord(List<Character> source, int indexFrom, String word) {
         int indexTo = indexFrom;
         for (int i = 0; i < word.length(); i++) {
@@ -164,6 +178,13 @@ public class CaesarCipher {
         return indexTo;
     }
 
+    /**
+     * countWord - підрахунок скільки разів зустрічається потрібне слово
+     *
+     * @param source - вхідний список символів
+     * @param word   - слово, яке підраховуємо
+     * @return кількість "зустрічей"
+     */
     private int countWord(List<Character> source, String word) {
         int count = 0;
         int index = 0;
@@ -179,6 +200,12 @@ public class CaesarCipher {
         return count;
     }
 
+    /**
+     * checkSum - підрахунок констрольної суми
+     *
+     * @param source - вхідний список символів
+     * @return значення контрольної суми
+     */
     private int checkSum(List<Character> source) {
         int sum = 0;
         for (int i = 0; i < CHECK_LIST.length; i++)
