@@ -5,7 +5,7 @@ import java.io.IOException;
 public class Runner {
     public void execute(String[] args) throws IOException {
         if (args.length > 0) {
-            new CommandLineMode(args).run();
+            new CommandLineMode(args, new ConsoleLog()).run();
         }
     }
 }

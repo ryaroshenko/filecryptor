@@ -77,17 +77,19 @@ public class CaesarCipher {
      * @param cryptType - тип шифрування
      * @return вихідний список символів
      */
-    public List<Character> crypt(List<Character> source, int key, CryptType cryptType) {
-        if ((source == null) || (key <= 0))
+    private List<Character> crypt(List<Character> source, int key, CryptType cryptType) {
+        if ((source == null) || (key < 0))
             return null;
+        if (key % alphabet.size() == 0)
+            return source;
         List<Character> result = new ArrayList<>();
         for (Character value : source) {
             switch (cryptType) {
                 case ENCRYPT:
-                    result.add(encryptSymbol(value.charValue(), key));
+                    result.add(encryptSymbol(value, key));
                     break;
                 case DECRYPT:
-                    result.add(decryptSymbol(value.charValue(), key));
+                    result.add(decryptSymbol(value, key));
                     break;
             }
         }
