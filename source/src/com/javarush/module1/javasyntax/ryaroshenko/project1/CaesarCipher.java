@@ -12,7 +12,9 @@ public class CaesarCipher {
     // Алфавіт шифрування
     private List<Character> alphabet;
     // Рядки для перевірки алгоритму brute-force
-    private final String[] CHECK_LIST = new String[]{", ", " and ", " the ", " - ", " they ", " or ", ": "};
+    private final String[] CHECK_LIST = new String[]{", ", " and ", " the ", " - ", " they ", " or ", ": ",
+        " і ", " та ", " або ", " він ", " вона ", " воно ", " хіба ", " має ", " є ", " її ", " його ", " ти ",
+        " яке ", " яка ", " який ", " для ", " що ", " чим ", " she ", " he ", " have ", " has ", " to ", " was "};
 
     /**
      * Constructor
@@ -28,13 +30,29 @@ public class CaesarCipher {
     private void fillAlphabet() {
         if (alphabet == null)
             return;
+        // Український алфавіт
+        char[] alphabetUAUpper = new char[]{'А', 'Б', 'В', 'Г', 'Ґ', 'Д', 'Е', 'Є', 'Ж', 'З', 'И', 'І', 'Ї', 'Й', 'К',
+                'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ь', 'Ю', 'Я'};
+        char[] alphabetUALower = new char[]{'а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'є', 'ж', 'з', 'и', 'і', 'ї', 'й', 'к',
+                'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я'};
         // Додаткові символи до алфавіту шифрування
         char[] symbols = new char[]{'.', ',', '«', '»', '"', '\'', ':', '!', '?', ' '};
         alphabet.clear();
-        for (char symbol = 'a'; symbol <= 'z'; symbol++)
-            alphabet.add(symbol);
         for (char symbol = 'A'; symbol <= 'Z'; symbol++)
             alphabet.add(symbol);
+        for (char symbol = 'a'; symbol <= 'z'; symbol++)
+            alphabet.add(symbol);
+        addAlphabet(alphabetUAUpper);
+        addAlphabet(alphabetUALower);
+        addAlphabet(symbols);
+    }
+
+    /**
+     * addAlphabet - додавання символів до алфавіту
+     *
+     * @param symbols - масив символів
+     */
+    private void addAlphabet(char[] symbols) {
         for (int index = 0; index < symbols.length; index++)
             alphabet.add(symbols[index]);
     }
@@ -152,7 +170,7 @@ public class CaesarCipher {
                 key = entry.getKey();
             }
         }
-        if (max == 0)
+        if (max <= 0)
             key = 0;
         return key;
     }
@@ -201,7 +219,7 @@ public class CaesarCipher {
     }
 
     /**
-     * checkSum - підрахунок констрольної суми
+     * checkSum - підрахунок контрольної суми
      *
      * @param source - вхідний список символів
      * @return значення контрольної суми
