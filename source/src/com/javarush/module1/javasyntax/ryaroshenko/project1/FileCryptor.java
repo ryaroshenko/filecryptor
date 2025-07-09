@@ -6,7 +6,7 @@ import java.io.IOException;
  * Основний клас шифратора/дешифратора файлів
  */
 public class FileCryptor {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, WrongArgsException {
         new Runner().execute(args);
     }
 }

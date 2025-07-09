@@ -14,7 +14,8 @@ public class CaesarCipher {
     // Рядки для перевірки алгоритму brute-force
     private final String[] CHECK_LIST = new String[]{", ", " and ", " the ", " - ", " they ", " or ", ": ",
         " і ", " та ", " або ", " він ", " вона ", " воно ", " хіба ", " має ", " є ", " її ", " його ", " ти ",
-        " яке ", " яка ", " який ", " для ", " що ", " чим ", " she ", " he ", " have ", " has ", " to ", " was "};
+        " яке ", " яка ", " який ", " для ", " що ", " чим ", " she ", " he ", " have ", " has ", " to ", " was ",
+        " як ", " з "};
 
     /**
      * Constructor
@@ -161,7 +162,7 @@ public class CaesarCipher {
     public int bruteForce(List<Character> source) {
         int key;
         Map<Integer, Integer> map = new HashMap<>();
-        for (key = 1; key < alphabet.size(); key++) {
+        for (key = 0; key < alphabet.size(); key++) {
             List<Character> list = decrypt(source, key);
             map.put(key, checkSum(list));
         }

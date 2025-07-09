@@ -16,17 +16,13 @@ public class FileService {
      * @param filePath - назва файлу разом з його шляхом
      * @return List<Character> - колекція символів з файлу
      */
-    public static List<Character> readFile(String filePath) {
+    public static List<Character> readFile(String filePath) throws IOException {
         List<Character> list = new ArrayList<>();
-        try {
-            BufferedReader buffer = new BufferedReader(new FileReader(filePath));
-            int value;
-            while ((value = buffer.read()) != -1)
-                list.add((char) value);
-            buffer.close();
-        } catch (IOException e) {
-            return null;
-        }
+        BufferedReader buffer = new BufferedReader(new FileReader(filePath));
+        int value;
+        while ((value = buffer.read()) != -1)
+            list.add((char) value);
+        buffer.close();
         return list;
     }
 
@@ -37,16 +33,13 @@ public class FileService {
      * @param list     - колекція символів для файлу
      */
     public static void writeFile(String filePath, List<Character> list) throws IOException {
-        if (list == null)
-            return;
+        if (list == null || list.size() == 0)
+            throw new IOException(Constants.SOURCE_LIST_EMPTY_ERROR);
         Files.deleteIfExists(Path.of(filePath));
-        try {
-            BufferedWriter buffer = new BufferedWriter(new FileWriter(filePath));
-            for (Character value : list)
-                buffer.write(value.charValue());
-            buffer.close();
-        } catch (IOException e) {
-        }
+        BufferedWriter buffer = new BufferedWriter(new FileWriter(filePath));
+        for (Character value : list)
+            buffer.write(value);
+        buffer.close();
     }
 
     /**

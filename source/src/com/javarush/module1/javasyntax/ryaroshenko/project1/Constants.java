@@ -7,6 +7,11 @@ public interface Constants {
     String WRONG_ENCRYPT_DECRYPT_PARAMS_ERROR = "Для команд ENCRYPT та DECRYPT формат параметрів має бути таким: \"command filePath key\"";
     String WRONG_BRUTE_FORCE_PARAMS_ERROR = "Для команди BRUTE_FORCE формат параметрів має бути таким: \"command filePath\"";
     String KEY_FORMAT_EXCEPTION_ERROR = "\"%s\" - неправильний формат ключа, ключ має бути більше або дорівнювати нулю";
-    String FILE_READ_ERROR = "Помилка зчитування файлу";
-    String FILE_READ_COMPLETE = "Зчитано %d символів";
+    String FILE_READ_COMPLETE = "Зчитано %d символів з файлу \"%s\"";
+    String SOURCE_LIST_EMPTY_ERROR = "Масив для операцій з файлом пустий";
+    String FILE_WRITE_COMPLETE = "Записано %d символів до файлу \"%s\"";
+    String ENCRYPT_COMPLETE = "Зашифровано %d символів";
+    String DECRYPT_COMPLETE = "Дешифровано %d символів";
+    String VALUE_OF_KEY_SEARCHING = "Шукаю ключа ...";
+    String VALUE_OF_KEY_FOUND = "Знайдено значення ключа: %d";
 }
