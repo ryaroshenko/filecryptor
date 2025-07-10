@@ -4,8 +4,13 @@ import java.io.IOException;
 
 public class Runner {
     public void execute(String[] args) throws IOException, WrongArgsException {
-        if (args.length > 0) {
-            new CommandLineMode(args, new ConsoleLog()).run();
-        }
+        ProgramMode program;
+
+        if (args.length > 0)
+            program = new CommandLineMode(args, new ConsoleLog());
+        else
+            program = new ConsoleMode(new ConsoleLog());
+
+        program.run();
     }
 }
